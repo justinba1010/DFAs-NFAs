@@ -14,7 +14,7 @@
 #define __baumdfa_badparser_cc__
 
 //using std::cin;
-//using std::out;
+using std::cout;
 using std::vector;
 
 #define MAXBYTELENGTH 65536
@@ -49,7 +49,7 @@ vector<int> parseInts(char *string) {
     }
     number[x++] = string[i];
   }
-  ret.push_back(atoi(number));
+  if (number[0] != 0) ret.push_back(atoi(number));
   return ret;
 }
 

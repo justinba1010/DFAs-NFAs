@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
   for (int i = 0; i < numStates; ++i) {
     for (int j = 0; j < alphabetLength; ++j) {
       if (i == (numStates - 1)) {
-        transitions[i*alphabetLength+j] = 1;
+        transitions[i*alphabetLength+j] = numStates - 1;
       } else {
         transitions[i*alphabetLength+j] = 0;
       }
@@ -69,8 +69,8 @@ void prettyPrinter(struct DFA dfa) {
     cout << dfa.acceptingStates[i] << " ";
   }
   cout << "\n";
-  cout << "Alphabet " << dfa.alphabet << "\n";
-  cout << "Alphabet Length: " << dfa.alphabetLength << "\n";
+  cout << "Alphabet: " << dfa.alphabet << "\n";
+  //cout << "Alphabet Length: " << dfa.alphabetLength << "\n";
   for(int i = 0; i < dfa.numStates; ++i) {
     for(int j = 0; j < dfa.alphabetLength; ++j) {
       cout << ((int*)dfa.transitions)[i*dfa.alphabetLength+j] << " ";
