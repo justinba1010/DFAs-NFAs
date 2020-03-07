@@ -54,24 +54,24 @@ vector<int> parseInts(char *string) {
 }
 
 
-void parse(struct DFA &dfa) {
+void parse(struct DFA &dfa, FILE * file) {
   // State: Number of states
-  scanf("Number of states: %d\n", &dfa.numStates);
+  fscanf(file, "Number of states: %d\n", &dfa.numStates);
   char junkString[MAXBYTELENGTH], alphabet[MAXBYTELENGTH], word[MAXBYTELENGTH];
-  scanf("Accepting states: %[^\n]\n", junkString);
+  fscanf(file, "Accepting states: %[^\n]\n", junkString);
   dfa.acceptingStates = parseInts(junkString);
-  scanf("Alphabet: %[^\n]\n", alphabet);
+  fscanf(file, "Alphabet: %[^\n]\n", alphabet);
   dfa.alphabetLength = strLen(alphabet);
   dfa.alphabet = alphabet;
   vector<struct Delta> transitions;
   for(int i = 0; i < dfa.numStates; ++i) {
     struct Delta delta;
-    scanf("%[^\n]\n", junkString);
+    fscanf(file, "%[^\n]\n", junkString);
     delta.transition = parseInts(junkString);
     transitions.push_back(delta);
   }
   dfa.transitions = transitions;
-  scanf("%[^\n]\n", word);
+  fscanf(file, "%[^\n]\n", word);
   dfa.word = word;
 }
 #endif

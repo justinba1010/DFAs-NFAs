@@ -20,8 +20,14 @@ int lookup(char *alphabet, char transition);
 bool accepted(int state, vector<int> acceptedStates);
 
 int main(int argc, char **argv) {
+  if (argc < 2) {
+    cout << "Error need file name\n";
+    return 255;
+  }
+  FILE * file;
+  file = fopen(argv[1], "r");
   struct DFA dfa;
-  parse(dfa);
+  parse(dfa, file);
   // Initial State
   int state = 0;
 

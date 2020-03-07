@@ -25,7 +25,13 @@ int strLen(char *array);
 
 int main(int argc, char **argv) {
   char input[SIZESTR];
-  scanf("%s", input);
+  if (argc < 2) {
+    cout << "Error need filename\n";
+    return 255;
+  }
+  FILE * file;
+  file = fopen(argv[1], "r");
+  fscanf(file, "%s", input);
   int numStates = strLen(input) + 1;
   char* alphabet = "abcdefghijklmnopqrstuvwxyz";
   vector<int> acceptingStates;

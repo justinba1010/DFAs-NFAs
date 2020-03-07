@@ -1,4 +1,4 @@
-for i in {1..2048}
+for i in {1..64}
 do
   echo $i
   cp $1.dfa $1/$1-$i.dfa
