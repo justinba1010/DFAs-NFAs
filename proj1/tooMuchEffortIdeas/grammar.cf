@@ -1,0 +1,9 @@
+entrypoints DFA;
+SDFA. DFA ::= NumberOfStates AcceptingStates Alphabet [Delta];
+SNumberOfStates. NumberOfStates ::= "Number of states: " Integer;
+SAcceptingStates. AcceptingStates ::= "Accepting states: " [Integer];
+SAlphabet. Alphabet ::= "Alphabet: " AlphabetToken;
+SDelta. Delta ::= [Integer];
+separator Delta "\\n";
+separator Integer " ";
+token AlphabetToken [letter | digit | upper | lower];
