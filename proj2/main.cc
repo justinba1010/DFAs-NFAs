@@ -8,31 +8,48 @@
 #include <iostream>
 
 #include "structure.cc"
-#include "badparser.cc"
 
 
 using std::cout;
 using std::cin;
 using std::vector;
 
+#define SIZESTR 65536
+#define MAXBYTELENGTH 65536
+#define MAXNLENGTH 65536
+
 void prettyPrinter(struct DFA dfa);
 int lookup(char *alphabet, char transition);
 bool accepted(int state, vector<int> acceptedStates);
+int strLen(char *array);
 
 int main(int argc, char **argv) {
-  struct DFA dfa;
-  parse(dfa);
-  // Initial State
-  int state = 0;
-
-  //prettyPrinter(dfa);
-  int symbol;
-  for(int i = 0; dfa.word[i] != '\0'; ++i) {
-    //cout << "Current State: " << state << "\n";
-    symbol = lookup(dfa.alphabet, dfa.word[i]);
-    state = dfa.transitions[state].transition[symbol];
+  char input[SIZESTR];
+  scanf("%[^\n]", input);
+  int numStates = strLen(input) + 1;
+  char* alphabet = "abcdefghijklmnopqrstuvwxyz";
+  vector<int> acceptingStates;
+  acceptingStates.push_back(numStates - 1);
+  vector<struct Delta> transitions;
+  for (int i = 0; i < numStates; ++i) {
+    vector<int> transition(26, (i < numStates - 1 ? 0 : numStates - 1));
+    struct Delta delta;
+    delta.transition = transition;
+    transitions.push_back(delta);
   }
-  cout << (accepted(state, dfa.acceptingStates) ? "accepted" : "rejected") << "\n";
+  for (int i = 0; i < numStates; ++i) {
+    int state = lookup(alphabet, input[i]);
+    transitions[i].transition[state] = i + 1;
+  }
+  struct DFA dfa;
+  dfa.numStates = numStates;
+  dfa.alphabet = alphabet;
+  dfa.numAccepting = 1;
+  dfa.acceptingStates = acceptingStates;
+  dfa.alphabetLength = 26;
+  dfa.transitions = transitions;
+  prettyPrinter(dfa);
+  cout << "Yes\n";
   return 0;
 }
 
@@ -51,7 +68,6 @@ void prettyPrinter(struct DFA dfa) {
     }
     cout << "\n";
   }
-  cout << "Word: " << dfa.word << "\n";
 }
 
 int lookup(char *alphabet, char transition) { 
@@ -67,4 +83,13 @@ bool accepted(int state, vector<int> acceptedStates) {
     if (*it == state) return true;
   }
   return false;
+}
+
+int strLen(char* array) {
+  for (int i = 0; i < MAXNLENGTH; ++i) {
+    if (array[i] == 0) {
+      return i;
+    }
+  }
+  return MAXNLENGTH;
 }

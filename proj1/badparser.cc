@@ -17,7 +17,7 @@
 //using std::out;
 using std::vector;
 
-#define MAXBYTELENGTH 1024
+#define MAXBYTELENGTH 65536
 #define MAXNLENGTH 32
 
 void reset0(char* array) {
