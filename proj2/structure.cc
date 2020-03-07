@@ -10,17 +10,13 @@
 #define __baumdfa_structure_cc__
 using std::vector;
 
-struct Delta {
-  vector<int> transition;
-};
-
 struct DFA {
   int numStates;
   int numAccepting;
   vector<int> acceptingStates;
   int alphabetLength;
   char* alphabet;
-  vector<struct Delta> transitions;
+  int* transitions;
 };
 
 #endif

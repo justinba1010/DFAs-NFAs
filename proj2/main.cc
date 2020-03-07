@@ -25,31 +25,34 @@ int strLen(char *array);
 
 int main(int argc, char **argv) {
   char input[SIZESTR];
-  scanf("%[^\n]", input);
+  scanf("%s", input);
   int numStates = strLen(input) + 1;
   char* alphabet = "abcdefghijklmnopqrstuvwxyz";
   vector<int> acceptingStates;
+  int alphabetLength = 26;
   acceptingStates.push_back(numStates - 1);
-  vector<struct Delta> transitions;
+  int transitions[numStates*alphabetLength];
   for (int i = 0; i < numStates; ++i) {
-    vector<int> transition(26, (i < numStates - 1 ? 0 : numStates - 1));
-    struct Delta delta;
-    delta.transition = transition;
-    transitions.push_back(delta);
+    for (int j = 0; j < alphabetLength; ++j) {
+      if (i == (numStates - 1)) {
+        transitions[i*alphabetLength+j] = 1;
+      } else {
+        transitions[i*alphabetLength+j] = 0;
+      }
+    }
   }
-  for (int i = 0; i < numStates; ++i) {
+  for (int i = 0; i < numStates-1; ++i) {
     int state = lookup(alphabet, input[i]);
-    transitions[i].transition[state] = i + 1;
+    transitions[i*alphabetLength + state] = i + 1;
   }
   struct DFA dfa;
   dfa.numStates = numStates;
   dfa.alphabet = alphabet;
   dfa.numAccepting = 1;
   dfa.acceptingStates = acceptingStates;
-  dfa.alphabetLength = 26;
-  dfa.transitions = transitions;
+  dfa.alphabetLength = alphabetLength;
+  dfa.transitions = (int*)transitions;
   prettyPrinter(dfa);
-  cout << "Yes\n";
   return 0;
 }
 
@@ -64,7 +67,7 @@ void prettyPrinter(struct DFA dfa) {
   cout << "Alphabet Length: " << dfa.alphabetLength << "\n";
   for(int i = 0; i < dfa.numStates; ++i) {
     for(int j = 0; j < dfa.alphabetLength; ++j) {
-      cout << dfa.transitions[i].transition[j] << " ";
+      cout << ((int*)dfa.transitions)[i*dfa.alphabetLength+j] << " ";
     }
     cout << "\n";
   }
