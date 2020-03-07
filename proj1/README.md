@@ -1,5 +1,10 @@
 # Project 1
 ## Justin Baum
 
-A DFA simulator, using `flex`. 
-# CSCE355
+A DFA simulator.
+
+# Build
+`make`
+
+# Run
+`./main DFAFile`
